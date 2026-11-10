@@ -1,0 +1,74 @@
+<misterromdescription>
+	<n>Front Line (FL, 5 PCB version)</n>
+	<mameversion>0245</mameversion>
+	<setname>frontlina</setname>
+	<parent>frontlin</parent>
+	<mratimestamp>202603211728</mratimestamp>
+	<year>1982</year>
+	<manufacturer>Taito Corporation</manufacturer>
+	<category>Action</category>
+	<rbf>TaitoSJ</rbf>
+	<rotation>vertical (ccw)</rotation>
+	<joystick>8-way</joystick>
+	<buttons names="Fire,Grenade/Tank,Coin A,Start 1P,Coin B,Start 2P,Service,Pause,Gun Right,Gun Left,Gun Down,Gun Up"
+	         default="A,B,Select,Start,X,Y,L,R,Rright,Rleft,Rdown,Rup"/>
+	<switches default="00,7F,00,FF,00,00,00,00">
+		<dip bits="8,9" name="Bonus Life" ids="50000,30000,20000,10000"/>
+		<dip bits="10" name="Free Play" ids="On,Off"/>
+		<dip bits="11,12" name="Lives" ids="6,5,4,3"/>
+		<dip bits="14" name="Flip Screen" ids="On,Off"/>
+		<dip bits="15" name="Cabinet" ids="Upright,Cocktail"/>
+		<dip bits="13" name="Service Mode" ids="On,Off"/>
+		<dip bits="16,19" name="Coin A" ids="1C1C,1C2C,1C3C,1C4C,1C5C,1C6C,1C7C,1C8C,2C1C,3C1C,4C1C,5C1C,6C1C,7C1C,8C1C,9C1C"/>
+		<dip bits="20,23" name="Coin B" ids="1C1C,1C2C,1C3C,1C4C,1C5C,1C6C,1C7C,1C8C,2C1C,3C1C,4C1C,5C1C,6C1C,7C1C,8C1C,9C1C"/>
+		<dip bits="28" name="Coinage Display" ids="InsertCoin,Coins/Credits"/>
+		<dip bits="29" name="Year Display" ids="No,Yes"/>
+		<dip bits="30" name="Hit Detection" ids="NoHit,NormalGame"/>
+		<dip bits="31" name="Coin Slots" ids="Aonly,AandB"/>
+	</switches>
+	<rom index="0" md5="none" zip="frontlin.zip" type="merged|nonmerged">
+		<!-- Main CPU - Pass 1 (base + bank 0) [0x8000/0x8000] -->
+		<part crc="93b64599" name="fl69.u69"/>
+		<part crc="82dccdfb" name="fl68.u68"/>
+		<part crc="3fa1ba12" name="fl67.u67"/>
+		<part crc="4a3db285" name="fl66.u66"/>
+		<part crc="da00ec70" name="fl65.u65"/>
+		<part crc="9fc90a20" name="fl64.u64"/>
+		<part crc="359242c2" name="fl55.u55"/>
+		<part crc="d234c60f" name="fl54.u54"/>
+		<!-- Main CPU - Pass 2 (base + banked) [0x8000/0x8000] -->
+		<part crc="93b64599" name="fl69.u69"/>
+		<part crc="82dccdfb" name="fl68.u68"/>
+		<part crc="3fa1ba12" name="fl67.u67"/>
+		<part crc="4a3db285" name="fl66.u66"/>
+		<part crc="da00ec70" name="fl65.u65"/>
+		<part crc="9fc90a20" name="fl64.u64"/>
+		<part crc="67429975" name="fl53.u53"/>
+		<part crc="cb223d34" name="fl52.u52"/>
+		<!-- GFX ROMs [0x8000/0x8000] -->
+		<part crc="e82c9f46" name="fl1.u1"/>
+		<part crc="123055d3" name="fl2.u2"/>
+		<part crc="7ea46347" name="fl3.u3"/>
+		<part crc="9e2cff10" name="fl4.u4"/>
+		<part crc="630b4be1" name="fl5.u5"/>
+		<part crc="9e092d58" name="fl6.u6"/>
+		<part crc="613682a3" name="fl7.u7"/>
+		<part crc="f73b0d5e" name="fl8.u8"/>
+		<!-- Audio CPU ROMs [0x2000/0x4000] -->
+		<part crc="15f4ed8c" name="fl70.u70"/>
+		<part crc="c3eb38e7" name="fl71.u71"/>
+		<!-- Padding audio: 0x2000 -->
+		<part repeat="0x2000"> 00 </part>
+		<!-- Layer PROM [0x100/0x800] -->
+		<part crc="b833b5ea" name="eb16.ic22"/>
+		<!-- Padding PROM: 0x700 -->
+		<part repeat="0x700"> 00 </part>
+		<!-- MCU ROM [0x800] -->
+		<part crc="7e78bdd3" name="aa1_13.ic24"/>
+		<!-- Extended ROM [0x1000/0x1000] -->
+		<part crc="2704aa4c" name="aa1_10.ic8"/>
+	</rom>
+	<rom index="1">
+		<part>5</part>
+	</rom>
+</misterromdescription>

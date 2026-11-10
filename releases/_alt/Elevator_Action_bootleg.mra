@@ -1,0 +1,71 @@
+<misterromdescription>
+	<n>Elevator Action (bootleg)</n>
+	<mameversion>0245</mameversion>
+	<setname>elevatorb</setname>
+	<parent>elevator</parent>
+	<mratimestamp>202603211728</mratimestamp>
+	<year>1983</year>
+	<manufacturer>bootleg</manufacturer>
+	<category>Platform</category>
+	<rbf>TaitoSJ</rbf>
+	<rotation>horizontal</rotation>
+	<joystick>8-way</joystick>
+	<buttons names="Fire,Jump,Coin A,Start 1P,Coin B,Start 2P,Service,Pause"
+	         default="A,B,Select,Start,X,Y,L,R"/>
+	<switches default="00,7F,00,FF,00,00,00,00">
+		<dip bits="8,9" name="Bonus Life" ids="25000,20000,15000,10000"/>
+		<dip bits="10" name="Free Play" ids="On,Off"/>
+		<dip bits="11,12" name="Lives" ids="6,5,4,3"/>
+		<dip bits="14" name="Flip Screen" ids="On,Off"/>
+		<dip bits="15" name="Cabinet" ids="Upright,Cocktail"/>
+		<dip bits="16,19" name="Coin A" ids="1C1C,1C2C,1C3C,1C4C,1C5C,1C6C,1C7C,1C8C,2C1C,3C1C,4C1C,5C1C,6C1C,7C1C,8C1C,9C1C"/>
+		<dip bits="20,23" name="Coin B" ids="1C1C,1C2C,1C3C,1C4C,1C5C,1C6C,1C7C,1C8C,2C1C,3C1C,4C1C,5C1C,6C1C,7C1C,8C1C,9C1C"/>
+		<dip bits="24,25" name="Difficulty" ids="Hard,Normal,Easy,Easiest"/>
+		<dip bits="28" name="Coinage Display" ids="InsertCoin,Coins/Credits"/>
+		<dip bits="29" name="Year Display" ids="No,Yes"/>
+		<dip bits="30" name="Hit Detection" ids="NoHit,NormalGame"/>
+		<dip bits="31" name="Coin Slots" ids="Aonly,AandB"/>
+	</switches>
+	<rom index="0" md5="none" zip="elevator.zip" type="merged|nonmerged">
+		<!-- Main CPU - Pass 1 (base + bank 0) [0x8000/0x8000] -->
+		<part crc="66baa214" name="eabl_12.2732.ic69"/>
+		<part crc="13702e39" name="ea_13.2732.ic68"/>
+		<part crc="46f52646" name="ea_14.2732.ic67"/>
+		<part crc="b88f3383" name="eabl_15.2732.ic66"/>
+		<part crc="c10691d7" name="ea_16.2732.ic65"/>
+		<part crc="8913b293" name="ea_17.2732.ic64"/>
+		<part crc="d546923e" name="eabl_18.2732.ic55"/>
+		<part crc="963ec5a5" name="eabl_19.2732.ic54"/>
+		<!-- Main CPU - Pass 2 (base + banked) [0x8000/0x8000] -->
+		<part crc="66baa214" name="eabl_12.2732.ic69"/>
+		<part crc="13702e39" name="ea_13.2732.ic68"/>
+		<part crc="46f52646" name="ea_14.2732.ic67"/>
+		<part crc="b88f3383" name="eabl_15.2732.ic66"/>
+		<part crc="c10691d7" name="ea_16.2732.ic65"/>
+		<part crc="8913b293" name="ea_17.2732.ic64"/>
+		<!-- Padding bank gap: 0x1000 -->
+		<part repeat="0x1000"> 00 </part>
+		<part crc="44b1314a" name="eabl.2732.ic52"/>
+		<!-- GFX ROMs [0x8000/0x8000] -->
+		<part crc="bbbb3fba" name="ea_20.2732.ic1"/>
+		<part crc="639cc2fd" name="ea_21.2732.ic2"/>
+		<part crc="61317eea" name="ea_22.2732.ic3"/>
+		<part crc="55446482" name="ea_23.2732.ic4"/>
+		<part crc="77895c0f" name="ea_24.2732.ic5"/>
+		<part crc="9a1b6901" name="ea_25.2732.ic6"/>
+		<part crc="839112ec" name="ea_26.2732.ic7"/>
+		<part crc="67ebf7c1" name="eabl_27.2732.ic8"/>
+		<!-- Audio CPU ROMs [0x2000/0x4000] -->
+		<part crc="6d5f57cb" name="ea_9.2732.ic70"/>
+		<part crc="f0a769a1" name="ea_10.2732.ic71"/>
+		<!-- Padding audio: 0x2000 -->
+		<part repeat="0x2000"> 00 </part>
+		<!-- Layer PROM [0x100/0x800] -->
+		<part crc="b833b5ea" name="eb16.ic22"/>
+		<!-- Padding PROM: 0x700 -->
+		<part repeat="0x700"> 00 </part>
+	</rom>
+	<rom index="1">
+		<part>0</part>
+	</rom>
+</misterromdescription>

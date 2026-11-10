@@ -1,0 +1,62 @@
+<misterromdescription>
+	<n>Kick Start: Wheelie King</n>
+	<mameversion>0245</mameversion>
+	<setname>kikstart</setname>
+	<parent>kikstart</parent>
+	<mratimestamp>202603211728</mratimestamp>
+	<year>1984</year>
+	<manufacturer>Taito Corporation</manufacturer>
+	<category>Racing</category>
+	<rbf>TaitoSJ</rbf>
+	<rotation>horizontal</rotation>
+	<joystick>Special</joystick>
+	<buttons names="Accelerate,Gear Up,2nd Gear,3rd Gear,Coin A,Start 1P,Coin B,Start 2P,Service,Pause"
+	         default="A,B,C,D,Select,Start,X,Y,L,R"/>
+	<switches default="00,75,00,7F,00,00,00,00">
+		<dip bits="8,9" name="Gate Goal Bonus" ids="5000Points,10000Points,15000Points,20000Points"/>
+		<dip bits="10" name="Free Play" ids="On,Off"/>
+		<dip bits="11,12" name="Time Limit" ids="1:30,2:00,2:30,3:00"/>
+		<dip bits="14" name="Flip Screen" ids="On,Off"/>
+		<dip bits="15" name="Cabinet" ids="Upright,Cocktail"/>
+		<dip bits="13" name="Service Mode" ids="On,Off"/>
+		<dip bits="16,19" name="Coin A" ids="1C1C,1C2C,1C3C,1C4C,1C5C,1C6C,1C7C,1C8C,2C1C,3C1C,4C1C,5C1C,6C1C,7C1C,8C1C,9C1C"/>
+		<dip bits="20,23" name="Coin B" ids="1C1C,1C2C,1C3C,1C4C,1C5C,1C6C,1C7C,1C8C,2C1C,3C1C,4C1C,5C1C,6C1C,7C1C,8C1C,9C1C"/>
+		<dip bits="27" name="Control Type" ids="2Buttons,3-WayPositionalSwitch"/>
+		<dip bits="28" name="Coinage Display" ids="Off,On"/>
+		<dip bits="29" name="Year Display" ids="No,Yes"/>
+		<dip bits="30" name="Hit Detection" ids="NoHit,NormalGame"/>
+		<dip bits="31" name="Coin Slots" ids="Aonly,AandB"/>
+	</switches>
+	<rom index="0" md5="none" zip="kikstart.zip" type="merged|nonmerged">
+		<!-- Main CPU - Pass 1 (base + bank 0) [0x8000/0x8000] -->
+		<part crc="5810be97" name="a20-01"/>
+		<part crc="13e9565d" name="a20-02"/>
+		<part crc="93d7a9e1" name="a20-03"/>
+		<part crc="1f23c5d6" name="a20-04"/>
+		<!-- Main CPU - Pass 2 (base + banked) [0x8000/0x8000] -->
+		<part crc="5810be97" name="a20-01"/>
+		<part crc="13e9565d" name="a20-02"/>
+		<part crc="93d7a9e1" name="a20-03"/>
+		<part crc="66e100aa" name="a20-05"/>
+		<!-- GFX ROMs [0x8000/0x8000] -->
+		<part crc="6582fc89" name="a20-06"/>
+		<part crc="8c0b76d2" name="a20-07"/>
+		<part crc="0cca7a9d" name="a20-08"/>
+		<part crc="da625ccf" name="a20-09"/>
+		<!-- Audio CPU ROMs [0x3000/0x4000] -->
+		<part crc="de4352a4" name="a20-10"/>
+		<part crc="8db12dd9" name="a20-11"/>
+		<part crc="e7eeb933" name="a20-12"/>
+		<!-- Padding audio: 0x1000 -->
+		<part repeat="0x1000"> 00 </part>
+		<!-- Layer PROM [0x100/0x800] -->
+		<part crc="b833b5ea" name="eb16.22"/>
+		<!-- Padding PROM: 0x700 -->
+		<part repeat="0x700"> 00 </part>
+		<!-- MCU ROM [0x800] -->
+		<part crc="3fb6c4fb" name="a20-13.ic91"/>
+	</rom>
+	<rom index="1">
+		<part>4</part>
+	</rom>
+</misterromdescription>
