@@ -14,13 +14,14 @@
 // rgb is produced with a lead of 3 clocks against cx/cy (BRAM read register, game pixel
 // register, menu mix register), so counters are re-armed when cx == frame_width-4.
 //
-// MENU (TangCore overlay). iosys_bl616's textdisp draws a 256x224 picture; it is shown on the
-// same 256x224 grid as the game, scaled the same way (5x across, 3x down). overlay_x/overlay_y
-// are the source pixel being read (xx/yy), so they step every 5 clocks (textdisp needs at
-// least 3) and textdisp returns overlay_color 2 clocks after a step, in the same clock as the
-// game pixel register; the third stage mixes the two. xx runs on through the horizontal blank
-// and is 73 (odd) at the re-arm, so overlay_x always toggles bit 0 when it goes back to 0,
-// which is how textdisp sees a new pixel.
+// MENU (TangCore overlay). iosys_bl616's textdisp draws a 256x224 picture, shown 3x across and
+// 3x down in a 768 x 672 window at x 256-1023, lines 24-695: the same window as the monitor
+// core and common/video/video_out.v, so the menu does not move or change size between cores.
+// Vertically that is the game's grid (yy); across, the menu has its own counter (ox), which
+// steps every 3 clocks (the least textdisp needs). textdisp returns overlay_color 2 clocks
+// after a step, in the same clock as the game pixel register; the third stage mixes the two.
+// ox is set to 255 at the re-arm and goes to 0 at the window's left edge, so overlay_x toggles
+// bit 0 there, which is how textdisp sees a new pixel.
 //   overlay & !osd_strip: menu pixels (non-zero colour) over the game, dimmed to 1/4
 //   overlay &  osd_strip: the volume bar strip, text columns 8-23 of rows 23-24 (source
 //                         pixels 64-191, lines 184-199): lit pixels white on a band 2 source
@@ -72,6 +73,7 @@ module linebuf (
 
     localparam integer VSTART = 24;            // (720 - 672) / 2
     localparam integer SRC_H  = 224;
+    localparam integer OVL_X0 = 256;           // menu window left edge, (1280 - 768) / 2
 
     // ----------------------------------------------------------------- capture
     (* syn_ramstyle = "block_ram" *)
@@ -137,7 +139,9 @@ module linebuf (
     // ----------------------------------------------------------------- scan-out
     logic [10:0] pcnt = 11'd0;   // pixel position that will be on screen 3 clocks from now
     logic [2:0]  xsub = 3'd0;
-    logic [7:0]  xx   = 8'd0;
+    logic [7:0]  xx   = 8'd0;   // game pixel x (5x across)
+    logic [1:0]  osub = 2'd0;
+    logic [7:0]  ox   = 8'd0;   // menu pixel x (3x across, from OVL_X0)
     logic [7:0]  yy   = 8'd0;
     logic [1:0]  ysub = 2'd0;
     logic        vact = 1'b0;
@@ -148,6 +152,8 @@ module linebuf (
             pcnt <= 11'd0;
             xsub <= 3'd0;
             xx   <= 8'd0;
+            osub <= 2'd0;
+            ox   <= 8'd255;
             // vertical state for the line that starts 3 clocks from now
             if (cyn == VSTART) begin
                 vact <= 1'b1;
@@ -170,25 +176,39 @@ module linebuf (
                 xx   <= xx + 1'b1;
             end else
                 xsub <= xsub + 1'b1;
+            // ox = (pcnt - OVL_X0) / 3 from the menu window's left edge on
+            if (pcnt == 11'(OVL_X0 - 1)) begin
+                osub <= 2'd0;
+                ox   <= 8'd0;
+            end else if (pcnt >= 11'(OVL_X0)) begin
+                if (osub == 2'd2) begin
+                    osub <= 2'd0;
+                    ox   <= ox + 1'b1;
+                end else
+                    osub <= osub + 1'b1;
+            end
         end
     end
 
-    assign overlay_x = xx;
+    assign overlay_x = ox;
     assign overlay_y = yy;
 
     // BRAM read (registered), game pixel register, menu mix register
     logic [8:0]  q    = 9'd0;
-    logic        act0 = 1'b0, act1 = 1'b0;
-    logic [7:0]  x0, y0, x1, y1;
+    logic        act0 = 1'b0, act1 = 1'b0;     // game picture
+    logic        oact0 = 1'b0, oact1 = 1'b0;   // menu window
+    logic [7:0]  x0, y0, x1, y1;               // menu pixel
     logic [23:0] game = 24'h000000;
     wire  [12:0] raddr = {yy[4:0], xx};
 
     always_ff @(posedge clk_pix) begin
         q    <= mem[raddr];
         act0 <= vact && (pcnt < 11'd1280);
-        x0   <= xx;
+        oact0 <= vact && pcnt >= 11'(OVL_X0) && pcnt < 11'(OVL_X0 + 768);
+        x0   <= ox;
         y0   <= yy;
         act1 <= act0;
+        oact1 <= oact0;
         x1   <= x0;
         y1   <= y0;
         if (act0)
@@ -217,9 +237,9 @@ module linebuf (
 
     always_ff @(posedge clk_pix) begin
         if (ovl_s && !strip_s)
-            rgb <= act1 && lit ? menu_rgb
+            rgb <= oact1 && lit ? menu_rgb
                  : {2'b0, game[23:18], 2'b0, game[15:10], 2'b0, game[7:2]};
-        else if (ovl_s && act1 && band_win)
+        else if (ovl_s && oact1 && band_win)
             rgb <= strip_win && lit ? 24'hFFFFFF
                  : {3'b000, game[23:19], 3'b010, game[15:11], 3'b000, game[7:3]};
         else

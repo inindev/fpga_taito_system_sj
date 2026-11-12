@@ -20,7 +20,7 @@ All under `tang/nano20k/` unless noted.
 | `top.sv` | Top level: PLLs, iosys, ROM loading, SDRAM arbiter, core, gamepads, video, audio, HDMI, LEDs |
 | `rom_stream.sv` | Writes the ROM image from the firmware into SDRAM and the core's small on-chip ROMs |
 | `sdram.v` | Controller for the GW2AR's embedded 8 MB SDRAM (32 MHz, one access at a time) |
-| `linebuf.sv` | 32-line video ring buffer, 5x/3x scaling to 1280x720, menu overlay |
+| `linebuf.sv` | 32-line video ring buffer, 5x/3x scaling to 1280x720, menu overlay (3x/3x, 768x672) |
 | `gowin_pll_game.v` | Game PLL: 27 MHz in, 48 MHz and 32 MHz out |
 | `gowin_pll_hdmi.v` | HDMI PLL: 27 MHz in, 371.25 MHz out (divided by 5 to 74.25 MHz in `top.sv`) |
 | `nano20k.cst` | Pin constraints (clock, S1, LEDs, HDMI, UART, gamepads). The SDRAM is placed by the tool |
@@ -175,9 +175,10 @@ of 24 lines at the top and bottom.
 The trade-off: the game runs about 1.4% faster than on the original board (60 Hz instead of
 59.19 Hz). The sound chip clocks are not changed.
 
-**Menu.** The firmware's menu (iosys `textdisp`, 256 x 224 pixels) is drawn on the same grid as
-the game, 5x across and 3x down, over the game dimmed to a quarter. The volume bar is a strip
-of it over the running game, as in the other TangCore cores.
+**Menu.** The firmware's menu (iosys `textdisp`, 256 x 224 pixels) is drawn 3x across and
+3x down in a 768 x 672 window in the middle of the screen, the same window as the monitor
+core's main menu and the NES and SNES cores, over the game dimmed to a quarter. The volume bar
+is a strip of it over the running game, as in the other TangCore cores.
 
 **Audio.** The two AY-3-8910 groups from the core are mixed to mono and sent on both HDMI audio
 channels at 48 kHz, 16 bit, as the MiSTer core does with its 100% mix setting, then scaled by
